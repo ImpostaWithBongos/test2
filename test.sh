@@ -24,7 +24,7 @@ echo "There were $AdminAmount Admins on this machine" >> CheatSheet.txt
 for i in $( seq 1 $AccountAmount)
 do
     RandomNumber1=$(( $RANDOM % 50 + 1 ))
-    AccountToAdd=$(sed -n ${RandomNumber1}p temp1.txt > /dev/null 2>&1)
+    AccountToAdd=$(sed -n ${RandomNumber1}p temp1.txt)
     echo $AccountToAdd | xxd -ps -c 200 | tr -d '\n' >> EncryptTemp.txt
     useradd -m -p "saF6zJXSlFRAk" "$AccountToAdd" > /dev/null 2>&1
 done
@@ -37,7 +37,7 @@ for i in $( seq 1 $AdminAmount)
 do
     Random2=$(( $RANDOM % $AccountAmount + 0 ))
     AdminToAdd=$(sed -n ${Random2}p DecryptTemp2.txt)
-    usermod -a -G sudo "$AdminToAdd" > /dev/null 2>&1
+    usermod -a -G sudo "$AdminToAdd" 
 done
 rm DecryptTemp.txt
 rm DecryptTemp2.txt
