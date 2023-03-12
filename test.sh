@@ -5,9 +5,18 @@
 
 head -n 1 main | xxd -ps -r > temp1.txt
 
-wait 1
+echo "PCDC Practice Enumeration Generator test v0.1"
+sleep 1
+echo "Beginning set up process..."
+sleep 1
 
 echo "Setting up, step 1 out of 7"
+InterfaceAddress=$(( $RANDOM % 70 + 20 ))
+apt-get install bridge-utils -y > /dev/null 2>&1
+brctl addbr PCDC0
+ip address add 10.0.0.${InterfaceAddress}/255.255.255.0 dev PCDC0
+ip link set dev PCDC0 up
+echo "The IP Address for this machine was: 10.0.0.${InterfaceAddress}" >> CheatSheet.txt
 AccountAmount=$(( $RANDOM % 8 + 3 ))
 AdminAmount=$(( $RANDOM % $AccountAmount + 1 ))
 echo "There were $AccountAmount users on this machine" >> CheatSheet.txt
@@ -15,12 +24,12 @@ echo "There were $AdminAmount Admins on this machine" >> CheatSheet.txt
 for i in $( seq 1 $AccountAmount)
 do
     RandomNumber1=$(( $RANDOM % 50 + 1 ))
-    AccountToAdd=$(sed -n ${RandomNumber1}p temp1.txt)
+    AccountToAdd=$(sed -n ${RandomNumber1}p temp1.txt > /dev/null 2>&1)
     echo $AccountToAdd | xxd -ps -c 200 | tr -d '\n' >> EncryptTemp.txt
     useradd -m -p "saF6zJXSlFRAk" "$AccountToAdd" > /dev/null 2>&1
 done
 echo "Setting up, step 2 out of 7"
-DecryptedUsers=$(cat EncryptTemp.txt | xxd -ps -r)
+DecryptedUsers=$(cat EncryptTemp.txt | xxd -ps -r) 
 echo $DecryptedUsers >> DecryptTemp.txt
 tr ' ' '\n' < DecryptTemp.txt >> DecryptTemp2.txt
 echo "Setting up, step 3 out of 7"
@@ -48,13 +57,17 @@ creditdata="564953412c20343931363038373133303436373134372c2031302f323032362c2035
 
 if [ $(($oktest%2)) -eq 0 ]
 then
-    echo $creditdata | xxd -ps -r > /var/www/html/dump.csv
+    
+    echo $creditdata | xxd -ps -r > /var/www/html/dump.csv > /dev/null 2>&1
     echo "There was a datadump containing PII on this machine " >> CheatSheet.txt
 else
+    
     echo "There were no datadumps on this machine " >> CheatSheet.txt
+    
 fi
-echo "Setting up, step 6 out of 7"
 
+
+echo "Setting up, step 6 out of 7"
 
 echo "Finished! Begin enumerating!"
 
