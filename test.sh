@@ -43,13 +43,14 @@ rm DecryptTemp.txt
 rm DecryptTemp2.txt
 rm temp1.txt
 echo "Setting up, step 4 out of 7"
-installable=( "apt-get install apache2 -y" "apt-get install nmap -y" "apt-get install mysql-server -y" "apt-get install wireshark -y" )
+installable=( "apt-get install apache2 -y" "apt-get install nmap -y" "apt-get install mysql-server-8.0 -y" "apt-get install wireshark -y" )
 i2=$(( RANDOM % ${#installable[@]} ))
 ${installable[i2]} > /dev/null 2>&1
 echo "The following was ran to install programs: " >> CheatSheet.txt
 i3=$(( RANDOM % ${#installable[@]} ))
 ${installable[i3]} > /dev/null 2>&1
 echo ${installable[i2]} >> CheatSheet.txt
+apt install mysql-client-8.0 -y > /dev/null 2>&1
 echo ${installable[i3]} >> CheatSheet.txt
 echo "Setting up, step 5 out of 7"
 oktest=$[ RANDOM ]
